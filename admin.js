@@ -41,8 +41,9 @@ jQuery(document).ready(function($)
 		
 		initialize: function()
 		{
-			this.listenTo(this.model, 'change', this.render);
+			//this.listenTo(this.model, 'change', this.render);
 			this.listenTo(this.model, 'change', this.changed);
+			this.listenTo(this.model, 'change:featured_image', this.render);
 			this.listenTo(this.model, 'destroy', this.remove);
 		},
 		
@@ -73,10 +74,12 @@ jQuery(document).ready(function($)
  
 			// When an image is selected, run a callback.
 			file_frame.on( 'select', function() {
-				// We set multiple to false so only get one image from the uploader
-				attachment = file_frame.state().get('selection').first().toJSON();
-				var image_url = (attachment.sizes.thumbnail === undefined) ? attachment.sizes.full.url : attachment.sizes.thumbnail.url;
-				view.model.set({ featured_image : attachment.id, featured_image_url : image_url });
+			
+				attachment 		= file_frame.state().get('selection').first().toJSON();
+				var image_url 	= (attachment.sizes.thumbnail === undefined) ? attachment.sizes.full.url : attachment.sizes.thumbnail.url;
+
+				view.model
+					.set({ featured_image : attachment.id, featured_image_url : image_url });
 			});
  
 			// Finally, open the modal
@@ -88,12 +91,6 @@ jQuery(document).ready(function($)
 		changed: function(event)
 		{
 			var view	= this;
-			var model 	= view.model;
-			
-			var inputTitle 		= view.$el.find('.title').val();
-			var inputContent 	= view.$el.find('.content').val();
-			var inputLink		= view.$el.find('.link').val();
-			var inputLinkText	= view.$el.find('.link-text').val();
 		
 			if(view.timer) clearTimeout(view.timer);
 			
@@ -101,6 +98,13 @@ jQuery(document).ready(function($)
 			
 			view.timer = setTimeout(function()
 			{	
+				var model 	= view.model;
+				
+				var inputTitle 		= view.$el.find('.title').val();
+				var inputContent 	= view.$el.find('.content').val();
+				var inputLink		= view.$el.find('.link').val();
+				var inputLinkText	= view.$el.find('.link-text').val();
+			
 				model.save({
 				    post_title		: inputTitle,
 				    post_content 	: inputContent,
