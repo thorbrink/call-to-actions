@@ -13,6 +13,7 @@ jQuery(document).ready(function($)
 				post_title			: '',
 				post_content		: '',
 				link				: '',
+				link_text			: '',
 				ID					: false,
 				post_parent			: post_data.id, // Global variable passed from backend.
 				featured_image		: false,
@@ -36,7 +37,7 @@ jQuery(document).ready(function($)
 			"click .featured-image"	: "openMediaUploader" 
 		},
 		
-		template: _.template('<% if(featured_image_url) { %><figure class="featured-image"><img src="<%= featured_image_url %>" /></figure><% } else { %><a class="featured-image" href="#">Sätt bild</a><% } %><input class="title" type="text" value="<%= post_title %>" placeholder="Titel"/><input class="content" type="text" value="<%= post_content %>" placeholder="Text"/><input class="link" type="text" value="<%= link %>" placeholder="Länk"/><a href="#" class="remove"></a>'),
+		template: _.template('<% if(featured_image_url) { %><figure class="featured-image"><img src="<%= featured_image_url %>" /></figure><% } else { %><a class="featured-image" href="#">Sätt bild</a><% } %><input class="title" type="text" value="<%= post_title %>" placeholder="Titel"/><input class="content" type="text" value="<%= post_content %>" placeholder="Text"/><input class="link" type="text" value="<%= link %>" placeholder="Länk"/><input class="link-text" type="text" value="<%= link_text %>" placeholder="Länktext"/><a href="#" class="remove"></a>'),
 		
 		initialize: function()
 		{
@@ -92,6 +93,7 @@ jQuery(document).ready(function($)
 			var inputTitle 		= view.$el.find('.title').val();
 			var inputContent 	= view.$el.find('.content').val();
 			var inputLink		= view.$el.find('.link').val();
+			var inputLinkText	= view.$el.find('.link-text').val();
 		
 			if(view.timer) clearTimeout(view.timer);
 			
@@ -102,7 +104,8 @@ jQuery(document).ready(function($)
 				model.save({
 				    post_title		: inputTitle,
 				    post_content 	: inputContent,
-				    link			: inputLink
+				    link			: inputLink,
+				    link_text		: inputLinkText
 				}, {
 					success: function(model, response)
 					{
@@ -153,6 +156,7 @@ jQuery(document).ready(function($)
 			post_title			: bootstrapped_cta.post_title,
 			post_content		: bootstrapped_cta.post_content,
 			link				: bootstrapped_cta.link,
+			link_text			: bootstrapped_cta.link_text,
 			featured_image		: bootstrapped_cta.featured_image,
 			featured_image_url	: bootstrapped_cta.featured_image_url
 		});

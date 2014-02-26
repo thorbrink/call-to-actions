@@ -151,6 +151,7 @@ class Call_To_Actions
 		foreach( $children as &$child )
 		{
 			$child->link 			= get_post_meta( $child->ID, '_link', true );
+			$child->link_text		= get_post_meta( $child->ID, '_link_text', true );
 			$child->featured_image 	= get_post_meta( $child->ID, '_thumbnail_id', true );
 			
 			if( $child->featured_image )
@@ -199,6 +200,7 @@ class Call_To_Actions
 		else
 		{
 			update_post_meta($result, '_link', $model->link);
+			update_post_meta($result, '_link_text', $model->link_text);
 			update_post_meta($result, '_thumbnail_id', $model->featured_image);
 			
 			echo $result; // Post ID.
